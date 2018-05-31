@@ -53,23 +53,8 @@ public class ConexionBD {
             Logger.getLogger(LOGINController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-// GETS Y SETS
 
-    public Connection getConn() {
-        return conn;
-    }
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
-    }
-
-    public boolean loginUsuario(String usuario, String contraseña) {
-        boolean esta;
-        esta = user.buscarUsuario(usuario, contraseña, this.conn);
-        return esta;
-    }
 //METODOS ACTIVIDAD
-
     public boolean insertarActividad(String tipoActividad, String subtipo, String descripcion, String observacion, String url, String rutaImagen, String direccion) {
         boolean ok = false;
         int filas = 0;
@@ -142,8 +127,8 @@ public class ConexionBD {
         }
         return ok;
     }
-    
-    public boolean borrarExperiencia(int idExperiencia) throws SQLException{
+
+    public boolean borrarExperiencia(int idExperiencia) throws SQLException {
         boolean ok = false;
         int filas = 0;
         filas = exp.borrarExperiencia(idExperiencia);
@@ -152,8 +137,8 @@ public class ConexionBD {
         }
         return ok;
     }
-    
-    public boolean modificarExperieincia(Experiencia e){
+
+    public boolean modificarExperieincia(Experiencia e) {
         boolean ok = false;
         int filas = 0;
         filas = exp.modificarExpActividad(e);
@@ -169,5 +154,60 @@ public class ConexionBD {
         esAdministrador = user.esAdministrador();
         return esAdministrador;
 
+    }
+
+    // GETS Y SETS
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public boolean loginUsuario(String usuario, String contraseña) {
+        boolean esta;
+        esta = user.buscarUsuario(usuario, contraseña, this.conn);
+        return esta;
+    }
+
+    public ActividadDAO getAct() {
+        return act;
+    }
+
+    public void setAct(ActividadDAO act) {
+        this.act = act;
+    }
+
+    public EventoDAO getEvent() {
+        return event;
+    }
+
+    public void setEvent(EventoDAO event) {
+        this.event = event;
+    }
+
+    public UsuariosDAO getUser() {
+        return user;
+    }
+
+    public void setUser(UsuariosDAO user) {
+        this.user = user;
+    }
+
+    public ExperienciaDAO getExp() {
+        return exp;
+    }
+
+    public void setExp(ExperienciaDAO exp) {
+        this.exp = exp;
+    }
+
+    public ExperienciaActividadDAO getExpAct() {
+        return expAct;
+    }
+
+    public void setExpAct(ExperienciaActividadDAO expAct) {
+        this.expAct = expAct;
     }
 }

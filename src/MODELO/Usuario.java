@@ -16,7 +16,7 @@ public class Usuario {
 
     private String FormaPago;
 
-    private String idUsuario;
+    private int idUsuario;
     
     private int administrador;
 
@@ -90,11 +90,11 @@ public class Usuario {
         this.FormaPago = FormaPago;
     }
 
-    public String getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 

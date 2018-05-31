@@ -189,7 +189,7 @@ public class CREAREXPERIENCIASController implements Initializable {
 //    public Experiencia(int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) {
     @FXML
     private void guardarExperiencia(ActionEvent event) throws SQLException {
-        conexion.insertarExperiencia(0, 0, 0, LocalDate.MIN, LocalDate.MIN, tipoOrigen.USUARIO);
+        conexion.insertarExperiencia(conexion.getUser().getUser().getIdUsuario(), 0, 0, LocalDate.MIN, LocalDate.MIN, tipoOrigen.USUARIO);
     }
 
 }

@@ -67,11 +67,8 @@ public class UsuariosDAO {
         boolean eliminacion = false;
         String consulta = "DELETE FROM usuarios"
                 + " WHERE idUsuario = ?";
-
         ps = conn.prepareStatement(consulta);
-
-        ps.setInt(1, Integer.parseInt(user.getIdUsuario()));
-
+        ps.setInt(1, user.getIdUsuario());
         int numFilas = ps.executeUpdate();
         if (numFilas == 1 || numFilas > 1) {
             eliminacion = true;
@@ -149,4 +146,46 @@ public class UsuariosDAO {
         return esAdministrador;
 
     }
+
+    //GETS Y SETS
+    public PreparedStatement getPs() {
+        return ps;
+    }
+
+    public void setPs(PreparedStatement ps) {
+        this.ps = ps;
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public ResultSet getRs() {
+        return rs;
+    }
+
+    public void setRs(ResultSet rs) {
+        this.rs = rs;
+    }
+
+    public List<Usuario> getListaUsuarios() {
+        return listaUsuarios;
+    }
+
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
+    }
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
+    }
+
 }
