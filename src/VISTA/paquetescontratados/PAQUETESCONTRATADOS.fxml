@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="629.0" prefWidth="1011.0" style="-fx-background-color: grey;" stylesheets="@../../ESTILOS/estiloPerfil.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.paquetescontratados.PAQUETESCONTRATADOSController">
+   <children>
+      <Pane prefHeight="635.0" prefWidth="222.0" style="-fx-background-color: B8F3FF;" />
+      <ImageView fitHeight="635.0" fitWidth="1012.0" layoutX="-1.0" pickOnBounds="true" smooth="false" style="-fx-opacity: 0.7;">
+         <image>
+            <Image url="@../../IMAGENES/adult-book-business-297755.jpg" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="btAtras" layoutX="72.0" layoutY="580.0" onAction="#irAtras" prefHeight="25.0" prefWidth="72.0" text="Atrás" />
+      <Pagination layoutX="222.0" layoutY="113.0" maxPageIndicatorCount="5" prefHeight="518.0" prefWidth="789.0" />
+      <Separator layoutX="220.0" orientation="VERTICAL" prefHeight="632.0" prefWidth="3.0" />
+      <Label layoutX="223.0" layoutY="20.0" text="Experiencias" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="62.0" />
+         </font>
+      </Label>
+      <Separator layoutX="223.0" layoutY="109.0" prefHeight="9.0" prefWidth="789.0" />
+      <ImageView fitHeight="206.0" fitWidth="235.0" layoutX="-9.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image url="@../../IMAGENES/LogoProyecto2.0.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="6.0" layoutY="206.0" text="Consulta" textFill="WHITE">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="277.0" text="tus experiencias" textFill="WHITE">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label layoutX="72.0" layoutY="353.0" text="contratadas" textFill="WHITE">
+         <font>
+            <Font name="System Italic" size="27.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
