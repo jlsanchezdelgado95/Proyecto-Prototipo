@@ -73,7 +73,7 @@ public class ExperienciaDAO {
         }
         return filas;
     }
-    
+
     public ObservableList<Experiencia> listarTodasExpAct() throws SQLException {//idActividad, tipo, subtipo, descripcion y observacion
         ObservableList<Experiencia> lista = FXCollections.observableArrayList();
         Integer idExperiencia, idUsuario;
@@ -90,7 +90,8 @@ public class ExperienciaDAO {
             fechaContratacion = rs.getDate("fechaContratacion").toLocalDate();
             fechaFin = rs.getDate("fechaFin").toLocalDate();
             origen = tipoOrigen.valueOf(rs.getString("origen"));
-            Experiencia exp = new Experiencia(idExperiencia, idUsuario, presupuesto, fechaContratacion, fechaFin, origen);
+            Experiencia exp = new Experiencia(idUsuario, presupuesto, fechaContratacion, fechaFin, origen);
+            exp.setIdExperiencia(idExperiencia);
             lista.add(exp);
         }
         return lista;

@@ -1,20 +1,12 @@
 package DATOS;
 
 import MODELO.Usuario;
-import VISTA.perfil.PERFILController;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import org.omg.PortableServer.IdAssignmentPolicyValue;
 
 public class UsuariosDAO {
 
@@ -41,7 +33,6 @@ public class UsuariosDAO {
                 String apellidos = rs.getString("apellidos");
                 String formaDePago = rs.getString("formaDePago");
                 int administrador = rs.getInt("administrador");
-
                 Usuario fullUser = new Usuario(nombreUsuario, contrasenya, nombre, apellidos, formaDePago, administrador);
                 listaUsuarios.add(fullUser);
             }
@@ -114,14 +105,14 @@ public class UsuariosDAO {
         return actualizacion;
     }
 
-    public boolean buscarUsuario(String nombreUsuario, String contraseña,Connection con) {
-        boolean esta= false;
+    public boolean buscarUsuario(String nombreUsuario, String contraseña, Connection con) {
+        boolean esta = false;
         String nombre;
         String apellidos;
         String formaPago;
         int administrador;
         try {
-               
+
             String consulta = "select * from usuarios where nombreUsuario=? and contraseña=?";
             ps = con.prepareStatement(consulta);
             ps.setString(1, nombreUsuario);
@@ -129,36 +120,33 @@ public class UsuariosDAO {
             rs = ps.executeQuery();
             rs.first();
             System.out.println(rs.getRow());
-            if(rs.wasNull()==false){
-            nombreUsuario = rs.getString("nombreUsuario");
-            contraseña = rs.getString("contraseña");
-            nombre = rs.getString("nombre");
-            apellidos = rs.getString("apellidos");
-            formaPago = rs.getString("formaDePago");
-            administrador = rs.getInt("administrador");
+            if (rs.wasNull() == false) {
+                nombreUsuario = rs.getString("nombreUsuario");
+                contraseña = rs.getString("contraseña");
+                nombre = rs.getString("nombre");
+                apellidos = rs.getString("apellidos");
+                formaPago = rs.getString("formaDePago");
+                administrador = rs.getInt("administrador");
 
-            user = new Usuario(nombreUsuario, contraseña, nombre, apellidos, formaPago, administrador);
-            
-            esta = true;
+                user = new Usuario(nombreUsuario, contraseña, nombre, apellidos, formaPago, administrador);
+
+                esta = true;
             }
-           
-          
-
-            
 
 //            String NombreUsuario, String Contrasenya, String Nombre, String Apellidos, String FormaPago
         } catch (Exception e) {
             System.out.println(e);
         }
-       
+
         return esta;
     }
-    public boolean esAdministrador(){
-    boolean esAdministrador=false;
-    if(user.getAdministrador()==1){
-    esAdministrador=true;
-    }
-    return esAdministrador;
-    
+
+    public boolean esAdministrador() {
+        boolean esAdministrador = false;
+        if (user.getAdministrador() == 1) {
+            esAdministrador = true;
+        }
+        return esAdministrador;
+
     }
 }

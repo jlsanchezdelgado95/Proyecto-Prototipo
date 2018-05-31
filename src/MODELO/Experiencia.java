@@ -1,7 +1,6 @@
 package MODELO;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +20,7 @@ public class Experiencia {
     
     private List<ExperienciaActividad> listado = new ArrayList<>();
 
-    public Experiencia(int idExperiencia, int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) {
-        this.idExperiencia = idExperiencia;
+    public Experiencia(int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) {
         this.idUsuario = idUsuario;
         this.presupuesto = presupuesto;
         this.fechaContratacion = fechaContratacion;

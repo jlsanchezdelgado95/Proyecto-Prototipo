@@ -7,14 +7,15 @@ package VISTA.crearExperiencias;
 
 import DATOS.ConexionBD;
 import MODELO.Actividad;
+import MODELO.Experiencia;
+import MODELO.tipoOrigen;
 import VISTA.menuprincipal.MenuPrincipalController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -174,18 +175,21 @@ public class CREAREXPERIENCIASController implements Initializable {
     private void anyadirActividadEnExperiencia(ActionEvent event) throws SQLException {
         listaExpAct.add(conexion.filtrarActividadPorId(tvActividades.getSelectionModel().getSelectedItem().getIdActividad()));
         tvExperiencia.setItems(listaExpAct);
-        tcExpNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
-        tcExpTipo.setCellValueFactory(new PropertyValueFactory<>("Tipo"));
+        tcExpNombre.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        tcExpTipo.setCellValueFactory(new PropertyValueFactory<>("tipoActividad"));
         tcExpSubtipo.setCellValueFactory(new PropertyValueFactory<>("Subtipo"));
         tcExpURL.setCellValueFactory(new PropertyValueFactory<>("URL"));
     }
 
     @FXML
     private void eliminarActividadDeExperiencia(ActionEvent event) {
+        listaExpAct.remove(tvExperiencia.getSelectionModel().getSelectedItem());
+        tvActividades.setItems(listaExpAct);
     }
-
+//    public Experiencia(int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) {
     @FXML
-    private void guardarExperiencia(ActionEvent event) {
+    private void guardarExperiencia(ActionEvent event) throws SQLException {
+        conexion.insertarExperiencia(0, 0, 0, LocalDate.MIN, LocalDate.MIN, tipoOrigen.USUARIO);
     }
 
 }

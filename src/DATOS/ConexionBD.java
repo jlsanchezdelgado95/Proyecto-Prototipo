@@ -6,12 +6,13 @@
 package DATOS;
 
 import MODELO.Actividad;
+import MODELO.Experiencia;
+import MODELO.tipoOrigen;
 import VISTA.login.LOGINController;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -29,6 +30,7 @@ public class ConexionBD {
     private ActividadDAO act;
     private EventoDAO event;
     private UsuariosDAO user;
+    private ExperienciaDAO exp;
     private ExperienciaActividadDAO expAct;
 
 // RESTO DE METODOS CUANDO SE ACLARE LA BD
@@ -66,6 +68,7 @@ public class ConexionBD {
         esta = user.buscarUsuario(usuario, contraseña, this.conn);
         return esta;
     }
+//METODOS ACTIVIDAD
 
     public boolean insertarActividad(String tipoActividad, String subtipo, String descripcion, String observacion, String url, String rutaImagen, String direccion) {
         boolean ok = false;
@@ -127,6 +130,37 @@ public class ConexionBD {
             Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
         }
         return lista;
+    }
+
+    //METODOS EXPERIENCIA
+    public boolean insertarExperiencia(int idExperiencia, int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
+        boolean ok = false;
+        int filas = 0;
+        filas = exp.insertarExperiencia(idExperiencia, idUsuario, presupuesto, fechaContratacion, fechaFin, origen);
+        if (filas > 0) {
+            ok = true;
+        }
+        return ok;
+    }
+    
+    public boolean borrarExperiencia(int idExperiencia) throws SQLException{
+        boolean ok = false;
+        int filas = 0;
+        filas = exp.borrarExperiencia(idExperiencia);
+        if (filas > 0) {
+            ok = true;
+        }
+        return ok;
+    }
+    
+    public boolean modificarExperieincia(Experiencia e){
+        boolean ok = false;
+        int filas = 0;
+        filas = exp.modificarExpActividad(e);
+        if (filas > 0) {
+            ok = true;
+        }
+        return ok;
     }
 
     public boolean esAdministrador() {
