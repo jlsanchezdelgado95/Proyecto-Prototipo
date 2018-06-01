@@ -25,6 +25,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -78,6 +79,7 @@ public class CREAREXPERIENCIASController implements Initializable {
     private ObservableList<Actividad> listaExpAct = FXCollections.observableArrayList();
     @FXML
     private TableColumn<?, ?> tcExpSubtipo;
+    private Alert alerta = new Alert(Alert.AlertType.INFORMATION);
 
     /**
      * Initializes the controller class.
@@ -88,14 +90,18 @@ public class CREAREXPERIENCIASController implements Initializable {
     }
 
     public void cargarDatos() {
-        String lugar = "Lugares";
-        String restaurantes = "Restaurantes";
-        String transporte = "Transportes";
         ObservableList<String> tipo = FXCollections.observableArrayList();
-        tipo.add(lugar);
-        tipo.add(restaurantes);
-        tipo.add(transporte);
+        tipo.add("Lugares");
+        tipo.add("Restaurantes");
+        tipo.add("Transportes");
+        tipo.add("Otros");
         cbTipoActividad.setItems(tipo);
+        cbTipoActividad.getSelectionModel().selectFirst();
+        actividades = conexion.filtrarActividadPorTipo(cbTipoActividad.getSelectionModel().getSelectedItem());
+        tvActividades.setItems(actividades);
+        tcSubtipo.setCellValueFactory(new PropertyValueFactory<>("subtipo"));
+        tcNombre.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        tcUrl.setCellValueFactory(new PropertyValueFactory<>("URL"));
         if (conexion.esAdministrador() == true) {
             btInsertar.setVisible(true);
             btModificar.setVisible(true);
@@ -146,7 +152,31 @@ public class CREAREXPERIENCIASController implements Initializable {
 
     @FXML
     private void borrarActividad(ActionEvent event) {
-        conexion.borrarActividad(tvActividades.getSelectionModel().getSelectedItem().getIdActividad());
+        boolean borrado;
+        try {
+            borrado = conexion.borrarActividad(tvActividades.getSelectionModel().getSelectedItem().getIdActividad());
+            if (borrado == true) {
+                alerta.setTitle("Borrado correcta");
+                alerta.setContentText("La actividad se ha borrado satisfactoriamente");
+                alerta.showAndWait();
+                actividades = conexion.filtrarActividadPorTipo(cbTipoActividad.getSelectionModel().getSelectedItem());
+                tvActividades.setItems(actividades);
+                tcSubtipo.setCellValueFactory(new PropertyValueFactory<>("subtipo"));
+                tcNombre.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+                tcUrl.setCellValueFactory(new PropertyValueFactory<>("URL"));
+                txaDescripcion.clear();
+            } else {
+                alerta.setTitle("Borrado incorrecto");
+                alerta.setContentText("No hemos podido borrar la actividad");
+                alerta.showAndWait();
+            }
+        } catch (NullPointerException e) {
+            alerta.setTitle("Borrado incorrecto");
+            alerta.setHeaderText("Advertencia");
+            alerta.setContentText("Seleccione un actividad de la lista a borrar");
+            alerta.showAndWait();
+
+        }
     }
 
     public void setConexion(ConexionBD conexion) {
