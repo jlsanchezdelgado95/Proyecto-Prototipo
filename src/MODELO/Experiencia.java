@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Experiencia {
 
-    private int idExperiencia;
+    public int idExperiencia;
 
     private int idUsuario;
 

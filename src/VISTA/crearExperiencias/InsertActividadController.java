@@ -32,7 +32,6 @@ import javafx.stage.Stage;
 public class InsertActividadController implements Initializable {
 
     private TextField txTipoActividad;
-    @FXML
     private TextField txSubTipo;
     @FXML
     private TextField txRutaImagen;
@@ -52,9 +51,14 @@ public class InsertActividadController implements Initializable {
     private Alert alerta = new Alert(Alert.AlertType.INFORMATION);
     @FXML
     private ComboBox<String> cbTipoActividad;
+    @FXML
+    private ComboBox<String> cbSubtipo;
+    @FXML
+    private TextField txPrecio;
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -68,20 +72,37 @@ public class InsertActividadController implements Initializable {
         tipo.add("Lugares");
         tipo.add("Restaurantes");
         tipo.add("Transportes");
+        tipo.add("Otros");
         cbTipoActividad.setItems(tipo);
+        cbTipoActividad.getSelectionModel().selectFirst();
+        ObservableList<String> Subtipo = FXCollections.observableArrayList();
+
+        Subtipo.add("Museo");
+        Subtipo.add("Plaza");
+        Subtipo.add("Hoteles");
+        cbSubtipo.setItems(Subtipo);
+        cbSubtipo.getSelectionModel().selectFirst();
+
     }
 
     @FXML
     private void insertarActividad(ActionEvent event) {
         boolean insertado;
-        insertado = conexion.insertarActividad(cbTipoActividad.getSelectionModel().getSelectedItem(), txSubTipo.getText(), txDescripcion.getText(), txaObservacion.getText(), txURL.getText(), txRutaImagen.getText(), txDireccion.getText());
-        if (insertado == true) {
-            alerta.setTitle("Insercion correcta");
-            alerta.setContentText("La actividad se ha registrado satisfactoriamente");
-            alerta.showAndWait();
-        } else {
+        try {
+            insertado = conexion.insertarActividad(cbTipoActividad.getSelectionModel().getSelectedItem(), cbSubtipo.getSelectionModel().getSelectedItem(), txDescripcion.getText(), txaObservacion.getText(), txURL.getText(), txRutaImagen.getText(), txDireccion.getText(),Double.parseDouble(txPrecio.getText()));
+            if (insertado == true) {
+                alerta.setTitle("Insercion correcta");
+                alerta.setContentText("La actividad se ha registrado satisfactoriamente");
+                alerta.showAndWait();
+            } else {
+                alerta.setTitle("Insercion incorrecta");
+                alerta.setContentText("No hemos podido isertar su actividad");
+                alerta.showAndWait();
+            }
+        } catch (NullPointerException e) {
             alerta.setTitle("Insercion incorrecta");
-            alerta.setContentText("No hemos podido isertar su actividad");
+            alerta.setHeaderText("No hemos podido isertar su actividad");
+            alerta.setContentText("No se olvide de seleccionar un tipo y un subtipo por favor y poner una descripcion");
             alerta.showAndWait();
         }
     }
@@ -90,7 +111,7 @@ public class InsertActividadController implements Initializable {
     private void irAtras(ActionEvent event) throws IOException {
         Parent root;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/VISTA/crearpaquetes/CREARPAQUETES.fxml"));
+        loader.setLocation(getClass().getResource("/VISTA/crearExperiencias/CREAREXPERIENCIAS.fxml"));
         root = loader.load();
         CREAREXPERIENCIASController datosCrearPaquetes = loader.getController();
         datosCrearPaquetes.setConexion(conexion);
@@ -102,5 +123,30 @@ public class InsertActividadController implements Initializable {
 
     public void setConexion(ConexionBD conexion) {
         this.conexion = conexion;
+    }
+
+    @FXML
+    private void mostrarSubtipo(ActionEvent event) {
+        ObservableList<String> Subtipo = FXCollections.observableArrayList();
+        if (cbTipoActividad.getSelectionModel().getSelectedItem().equalsIgnoreCase("lugares")) {
+            Subtipo.add("Museo");
+            Subtipo.add("Plaza");
+            Subtipo.add("Hoteles");
+        }
+        if (cbTipoActividad.getSelectionModel().getSelectedItem().equalsIgnoreCase("restaurantes")) {
+            Subtipo.add("Local");
+            Subtipo.add("Nacional");
+            Subtipo.add("Internacional");
+        }
+        if (cbTipoActividad.getSelectionModel().getSelectedItem().equalsIgnoreCase("Transportes")) {
+            Subtipo.add("Taxi");
+            Subtipo.add("Metro");
+        }
+        if (cbTipoActividad.getSelectionModel().getSelectedItem().equalsIgnoreCase("otros")) {
+            Subtipo.add("otros");
+
+        }
+        cbSubtipo.setItems(Subtipo);
+        cbSubtipo.getSelectionModel().selectFirst();
     }
 }

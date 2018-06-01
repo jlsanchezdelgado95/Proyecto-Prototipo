@@ -32,7 +32,14 @@ public class Evento {
     public String getDescripcion() {
         return Descripcion;
     }
-
+ @Override
+    public String toString() {
+        String cadena = this.fecha + "  "+this.Nombre+"  ";
+        if(this.Descripcion!=null){
+        cadena+= this.Descripcion;
+        }
+        return cadena;
+    }
  
 
 

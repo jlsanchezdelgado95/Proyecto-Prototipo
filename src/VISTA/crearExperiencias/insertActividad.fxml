@@ -16,7 +16,6 @@
       <Label layoutX="118.0" layoutY="163.0" text="rutaImagen" />
       <Label layoutX="117.0" layoutY="282.0" text="URL" />
       <Label layoutX="118.0" layoutY="235.0" text="Descripción" />
-      <TextField fx:id="txSubTipo" layoutX="483.0" layoutY="93.0" />
       <TextField fx:id="txRutaImagen" layoutX="228.0" layoutY="159.0" />
       <TextField fx:id="txDireccion" layoutX="483.0" layoutY="159.0" />
       <TextField fx:id="txDescripcion" layoutX="193.0" layoutY="231.0" prefHeight="25.0" prefWidth="455.0" />
@@ -24,6 +23,9 @@
       <TextArea fx:id="txaObservacion" layoutX="193.0" layoutY="329.0" prefHeight="169.0" prefWidth="455.0" />
       <Button fx:id="btInsertar" layoutX="66.0" layoutY="414.0" mnemonicParsing="false" onAction="#insertarActividad" text="Insertar" />
       <Button fx:id="btAtras" layoutX="66.0" layoutY="451.0" mnemonicParsing="false" onAction="#irAtras" prefHeight="25.0" prefWidth="56.0" text="Atrás" />
-      <ComboBox fx:id="cbTipoActividad" layoutX="218.0" layoutY="93.0" prefWidth="150.0" />
+      <ComboBox fx:id="cbTipoActividad" layoutX="218.0" layoutY="93.0" onAction="#mostrarSubtipo" prefWidth="150.0" />
+      <ComboBox fx:id="cbSubtipo" layoutX="483.0" layoutY="93.0" prefWidth="150.0" />
+      <TextField fx:id="txPrecio" layoutX="228.0" layoutY="196.0" />
+      <Label layoutX="114.0" layoutY="200.0" prefHeight="17.0" prefWidth="61.0" text="Precio" />
    </children>
 </AnchorPane>

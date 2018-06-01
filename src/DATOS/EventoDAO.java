@@ -5,6 +5,7 @@
  */
 package DATOS;
 
+import MODELO.Actividad;
 import MODELO.Evento;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,6 +15,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -24,7 +27,7 @@ public class EventoDAO {
     private Connection conn;
     private PreparedStatement ps;
     private ResultSet rs;
-    private List<Evento> Listaeventos = new ArrayList<>();
+    private ObservableList<Evento> listaeventos = FXCollections.observableArrayList();
 
     public EventoDAO(Connection conn) throws SQLException {
         this.conn = conn;
@@ -32,27 +35,22 @@ public class EventoDAO {
     }
 
     public void RellenarListaEventos() throws SQLException {
-        String instruccionSQL = "SELECT * FROM eventos";
+        String instruccionSQL = "SELECT * FROM eventos order by fecha";
         LocalDate fechajava;
         ps = conn.prepareStatement(instruccionSQL);
         rs = ps.executeQuery();
-        java.sql.Date fechabda = rs.getDate("fecha");
-        fechajava = fechabda.toLocalDate();
-        Evento evento = new Evento(fechajava, rs.getString("Nombre"));
-        Listaeventos.add(evento);
+     
+        
 
-    }
+            while (rs.next()) {
+                java.sql.Date fechabda = rs.getDate("fecha");
+                fechajava = fechabda.toLocalDate();
 
-    public List filtrarEvento(LocalDate fecha) {
-        List<Evento> listaFiltrada = new ArrayList<>();
-        for (Evento Listaevento : Listaeventos) {
-            if (Listaevento.getFecha().equals(fecha)) {
-                listaFiltrada.add(Listaevento);
+                Evento evento = new Evento(fechajava, rs.getString("Nombre"), rs.getString("Descripcion"));
+                listaeventos.add(evento);
             }
-        }
 
-        return listaFiltrada;
-
+        
     }
 
     public boolean UpdateEventos(LocalDate fecha, String nombre, String descripcion) throws SQLException {
@@ -90,12 +88,25 @@ public class EventoDAO {
         ps = conn.prepareStatement(instruccionSQL);
         ps.setDate(1, Date.valueOf(fecha));
         ps.setString(2, nombre);
-        
+
         if (ps.executeUpdate() > 1) {
             confirmado = true;
         }
         return confirmado;
     }
 
-   
+    public ObservableList filtrarEvento(LocalDate fecha) {
+        ObservableList<Evento> listaFiltrada = FXCollections.observableArrayList();
+        for (Evento Listaevento : this.listaeventos) {
+            if (fecha.equals(Listaevento.getFecha()) == true) {
+                listaFiltrada.add(Listaevento);
+            }
+        }
+        return listaFiltrada;
+    }
+
+    public ObservableList<Evento> getListaeventos() {
+        return listaeventos;
+    }
+
 }

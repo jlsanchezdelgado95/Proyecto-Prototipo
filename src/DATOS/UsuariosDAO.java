@@ -1,12 +1,20 @@
 package DATOS;
 
 import MODELO.Usuario;
+import VISTA.perfil.PERFILController;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
 
 public class UsuariosDAO {
 
@@ -32,8 +40,11 @@ public class UsuariosDAO {
                 String nombre = rs.getString("nombre");
                 String apellidos = rs.getString("apellidos");
                 String formaDePago = rs.getString("formaDePago");
+                String direccion = rs.getString("direccion");
+                String correo = rs.getString("correo");
                 int administrador = rs.getInt("administrador");
-                Usuario fullUser = new Usuario(nombreUsuario, contrasenya, nombre, apellidos, formaDePago, administrador);
+
+                Usuario fullUser = new Usuario(idUsuario, nombreUsuario, contrasenya, nombre, apellidos, formaDePago, direccion, correo, administrador);
                 listaUsuarios.add(fullUser);
             }
 
@@ -43,20 +54,25 @@ public class UsuariosDAO {
 
     }
 
-    public boolean insertarUsuario(String nombreUsuario, String contraseña, String nombre, String apellidos, String formaDePago) throws SQLException {
+  
+    public boolean insertarUsuario(String nombreUsuario, String contraseña, String nombre, String apellidos,  String direccion,String correo,String formaDePago) throws SQLException {
         boolean insercion = false;
-        String consulta = "INSERT INTO "
-                + "usuarios (nombreUsuario, contraseña, nombre, apellidos, formaDePago)"
-                + "VALUES (?,?,?,?,?)";
+        String consulta = "INSERT INTO usuarios (nombreUsuario, contraseña, nombre, apellidos,direccion,correo,formaDePago) VALUES (?,?,?,?,?,?,?)";
 
         ps = conn.prepareStatement(consulta);
         ps.setString(1, nombreUsuario);
         ps.setString(2, contraseña);
         ps.setString(3, nombre);
         ps.setString(4, apellidos);
-        ps.setString(5, formaDePago);
+        ps.setString(5, direccion);
+        ps.setString(6, correo);
+        ps.setString(7, formaDePago);
+        
+       
+        
 
         int numFilas = ps.executeUpdate();
+        
         if (numFilas == 1 || numFilas > 1) {
             insercion = true;
         }
@@ -67,8 +83,11 @@ public class UsuariosDAO {
         boolean eliminacion = false;
         String consulta = "DELETE FROM usuarios"
                 + " WHERE idUsuario = ?";
+
         ps = conn.prepareStatement(consulta);
+
         ps.setInt(1, user.getIdUsuario());
+
         int numFilas = ps.executeUpdate();
         if (numFilas == 1 || numFilas > 1) {
             eliminacion = true;
@@ -77,24 +96,18 @@ public class UsuariosDAO {
 
     }
 
-    public boolean actualizarUsuario(String nombreUsuario, String contraseña, String nombre, String apellidos, String formaDePago, int idUsuario) throws SQLException {
+    public boolean actualizarUsuario(String nombre, String apellidos, String formaDePago,String direccion,String correo, int idUsuario) throws SQLException {
         boolean actualizacion = false;
-        String consulta = "UPDATE usuarios"
-                + " SET nombreUsuario = ?"
-                + " contraseña = ?"
-                + " nombre = ?"
-                + " apellidos = ?"
-                + " formaDePago = ?"
-                + "WHERE idUsuario = ?";
+        String consulta = "UPDATE usuarios SET nombre = ?, apellidos = ?, formaDePago = ?,direccion=?,correo=? WHERE idUsuario = ?";
 
         ps = conn.prepareStatement(consulta);
 
-        ps.setString(1, nombreUsuario);
-        ps.setString(2, contraseña);
-        ps.setString(3, nombre);
-        ps.setString(4, apellidos);
-        ps.setString(5, formaDePago);
-        ps.setInt(6, idUsuario);
+        ps.setString(1, nombre);
+        ps.setString(2, apellidos);
+        ps.setString(3, formaDePago);
+        ps.setInt(4, idUsuario);
+        ps.setString(5, direccion);
+        ps.setString(5, correo);
         int numFilas = ps.executeUpdate();
         if (numFilas == 1 || numFilas > 1) {
             actualizacion = true;
@@ -107,7 +120,10 @@ public class UsuariosDAO {
         String nombre;
         String apellidos;
         String formaPago;
+        String direccion;
+        String correo;
         int administrador;
+        int idUsuario;
         try {
 
             String consulta = "select * from usuarios where nombreUsuario=? and contraseña=?";
@@ -118,14 +134,17 @@ public class UsuariosDAO {
             rs.first();
             System.out.println(rs.getRow());
             if (rs.wasNull() == false) {
+                idUsuario = rs.getInt("idUsuario");
                 nombreUsuario = rs.getString("nombreUsuario");
                 contraseña = rs.getString("contraseña");
                 nombre = rs.getString("nombre");
                 apellidos = rs.getString("apellidos");
                 formaPago = rs.getString("formaDePago");
+                direccion = rs.getString("direccion");
+                correo = rs.getString("correo");
                 administrador = rs.getInt("administrador");
 
-                user = new Usuario(nombreUsuario, contraseña, nombre, apellidos, formaPago, administrador);
+                user = new Usuario(idUsuario, nombreUsuario, contraseña, nombre, apellidos, formaPago, direccion, correo, administrador);
 
                 esta = true;
             }
@@ -147,45 +166,7 @@ public class UsuariosDAO {
 
     }
 
-    //GETS Y SETS
-    public PreparedStatement getPs() {
-        return ps;
-    }
-
-    public void setPs(PreparedStatement ps) {
-        this.ps = ps;
-    }
-
-    public Connection getConn() {
-        return conn;
-    }
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
-    }
-
-    public ResultSet getRs() {
-        return rs;
-    }
-
-    public void setRs(ResultSet rs) {
-        this.rs = rs;
-    }
-
-    public List<Usuario> getListaUsuarios() {
-        return listaUsuarios;
-    }
-
-    public void setListaUsuarios(List<Usuario> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
-    }
-
     public Usuario getUser() {
         return user;
     }
-
-    public void setUser(Usuario user) {
-        this.user = user;
-    }
-
 }

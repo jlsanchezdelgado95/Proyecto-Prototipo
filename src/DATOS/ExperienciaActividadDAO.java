@@ -32,27 +32,25 @@ public class ExperienciaActividadDAO {
     public ExperienciaActividadDAO(Connection conn) {
         this.conn = conn;
     }
-    
+//public ExperienciaActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFin, int numPlazas, double preciol, LocalTime duracion) {
 //CRUD
-
-    public int insertarExpActividad(int idExperiencia, int numOrden, int idActividad, LocalDate fechaComienzo, LocalDate fechaFinal, int numeroPlazas,
+    public int insertarExpActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFinal, int numeroPlazas,
             double precio, LocalTime duracion) throws SQLException {
         int filas = 0;
         String sql = ("insert into " + " experiencias_actividades(idExperiencia,numOrden,idActividad, fechaComienzo,fechaFinal,numeroPlazas,precio,duracion) "
                 + " values(?,?,?,?,?,?,?,?)");
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, idExperiencia);
-        ps.setInt(2, numOrden);
-        ps.setInt(3, idActividad);
-        ps.setDate(4, Date.valueOf(fechaComienzo));
-        ps.setDate(5, Date.valueOf(fechaFinal));
-        ps.setInt(6, numeroPlazas);
-        ps.setDouble(7, precio);
-        ps.setTime(8, Time.valueOf(duracion));
+        ps.setInt(2, idActividad);
+        ps.setDate(3, Date.valueOf(fechaComienzo));
+        ps.setDate(4, Date.valueOf(fechaFinal));
+        ps.setInt(5, numeroPlazas);
+        ps.setDouble(6, precio);
+        ps.setTime(7, Time.valueOf(duracion));
         filas = ps.executeUpdate();
         Actividad act = new Actividad();
         Experiencia exp = new Experiencia();
-        ExperienciaActividad expAct = new ExperienciaActividad(idExperiencia, numOrden, idActividad);
+        ExperienciaActividad expAct = new ExperienciaActividad(idExperiencia, idActividad, fechaComienzo, fechaFinal, numeroPlazas, precio, duracion);
         exp.añadirListaExpAct(expAct);//LOS AÑADO A LAS LISTAS DE LAS CLASES
         act.añadirExpAct(expAct);
         return filas;
@@ -101,6 +99,39 @@ public class ExperienciaActividadDAO {
             idActividad = rs.getInt("idActividad");
             ExperienciaActividad expAct = new ExperienciaActividad(idExperiencia, tipoActividad, idActividad);
             lista.add(expAct);
+        }
+        return lista;
+    }
+
+    public ObservableList filtrarExperienciaActividadPorId(int idExperienciaActividad) throws SQLException {
+        ObservableList<ExperienciaActividad> lista = FXCollections.observableArrayList();
+        int idExperiencia = 0, numOrden, idActividad, numPlazas;
+        LocalDate fechaComienzo, fechaFin;
+        LocalTime duracion;
+
+        double preciol;
+
+        String consulta = ("SELECT * FROM experiencias_actividades WHERE idExperiencia = ?");
+        PreparedStatement ps = conn.prepareStatement(consulta);
+        ps.setInt(1, idExperienciaActividad);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            idExperiencia = rs.getInt("idExperiencia");
+            numOrden = rs.getInt("numeroOrden");
+            idActividad = rs.getInt("idActividad");
+            Date fechabda = rs.getDate("fechaCominezo");
+            fechaComienzo = fechabda.toLocalDate();
+            Date fechabda2 = rs.getDate("fechaFinal");
+            fechaFin = fechabda2.toLocalDate();
+            numPlazas = rs.getInt("numeroPlazas");
+            preciol = rs.getDouble("precio");
+            Time fechabda3 = rs.getTime("duracion");
+            duracion = fechabda3.toLocalTime();
+            ExperienciaActividad expeAct = new ExperienciaActividad(idExperiencia, idActividad, fechaComienzo, fechaFin, numPlazas, preciol, duracion);
+            expeAct.setNumOrden(numOrden);
+            System.out.println(expeAct);
+            lista.add(expeAct);
         }
         return lista;
     }

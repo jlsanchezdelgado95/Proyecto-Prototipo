@@ -74,6 +74,16 @@ public class ExperienciaDAO {
         return filas;
     }
 
+    public int maximoIdExp() throws SQLException {
+        int maximoId = 0;
+        String sql = ("select max(idExperiencia) from experiencias");
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        rs.first();
+        maximoId = rs.getInt("idExperiencia");
+        return maximoId;
+    }
+
     public ObservableList<Experiencia> listarTodasExpAct() throws SQLException {//idActividad, tipo, subtipo, descripcion y observacion
         ObservableList<Experiencia> lista = FXCollections.observableArrayList();
         Integer idExperiencia, idUsuario;

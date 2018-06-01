@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,8 +20,7 @@
             <Image url="@../../IMAGENES/adult-book-business-297755.jpg" />
          </image>
       </ImageView>
-      <JFXButton fx:id="btAtras" layoutX="72.0" layoutY="580.0" onAction="#irAtras" prefHeight="25.0" prefWidth="72.0" text="Atrás" />
-      <Pagination layoutX="222.0" layoutY="113.0" maxPageIndicatorCount="5" prefHeight="518.0" prefWidth="789.0" />
+      <JFXButton fx:id="btAtras" layoutX="72.0" layoutY="580.0" onAction="#irAtras" prefHeight="25.0" prefWidth="104.0" text="Atrás" />
       <Separator layoutX="220.0" orientation="VERTICAL" prefHeight="632.0" prefWidth="3.0" />
       <Label layoutX="223.0" layoutY="20.0" text="Experiencias" textFill="WHITE">
          <font>
@@ -47,5 +48,22 @@
             <Font name="System Italic" size="27.0" />
          </font>
       </Label>
+      <Label fx:id="lbPagina" layoutX="252.0" layoutY="584.0" prefHeight="17.0" prefWidth="81.0" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <JFXComboBox fx:id="cbIdExperiencia" layoutX="396.0" layoutY="170.0" onAction="#mostarExperienciasActividad" prefHeight="25.0" prefWidth="361.0" style="-fx-background-color: lightgrey;" AnchorPane.topAnchor="170.0" />
+      <TableView fx:id="tvExperienciaActividad" layoutX="293.0" layoutY="226.0" prefHeight="364.0" prefWidth="608.0">
+        <columns>
+          <TableColumn fx:id="tcIdActividad" prefWidth="85.0" text="idActividad" />
+          <TableColumn fx:id="tcFechaComienzo" prefWidth="99.0" text="FechaComienzo" />
+            <TableColumn fx:id="tcFechaFin" prefWidth="88.0" text="Fecha Fin" />
+            <TableColumn fx:id="tcNumeroPlazas" prefWidth="98.0" text="Numero Plazas" />
+            <TableColumn fx:id="tcPrecio" prefWidth="105.0" text="Precio" />
+            <TableColumn fx:id="tcDuracion" prefWidth="132.0" text="Duración" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="btBorrar" layoutX="521.0" layoutY="593.0" onAction="#borrarExperiencia" stylesheets="@../../ESTILOS/estiloPerfil.css" text="Borrar Experiencia" />
    </children>
 </AnchorPane>

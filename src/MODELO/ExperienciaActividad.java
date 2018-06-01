@@ -27,6 +27,18 @@ public class ExperienciaActividad {
         this.idActividad = idActividad;
     }
 
+    public ExperienciaActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFin, int numPlazas, double preciol, LocalTime duracion) {
+        this.idExperiencia = idExperiencia;
+        this.idActividad = idActividad;
+        this.fechaComienzo = fechaComienzo;
+        this.fechaFin = fechaFin;
+        this.numPlazas = numPlazas;
+        this.preciol = preciol;
+        this.duracion = duracion;
+    }
+    
+    
+
     //GETS Y SETS
     public int getIdExperiencia() {
         return idExperiencia;

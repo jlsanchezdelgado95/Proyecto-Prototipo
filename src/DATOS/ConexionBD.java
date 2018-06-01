@@ -1,27 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DATOS;
 
 import MODELO.Actividad;
+import MODELO.Evento;
 import MODELO.Experiencia;
+import MODELO.ExperienciaActividad;
+import MODELO.Usuario;
 import MODELO.tipoOrigen;
 import VISTA.login.LOGINController;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
- *
- * @author Kokekui
- */
 public class ConexionBD {
 
     private Connection conn;
@@ -30,15 +25,18 @@ public class ConexionBD {
     private ActividadDAO act;
     private EventoDAO event;
     private UsuariosDAO user;
-    private ExperienciaDAO exp;
     private ExperienciaActividadDAO expAct;
+    private ExperienciaDAO exp;
 
 // RESTO DE METODOS CUANDO SE ACLARE LA BD
     public ConexionBD() throws SQLException {
         conexion();
         user = new UsuariosDAO(conn);
         act = new ActividadDAO(conn);
+        event = new EventoDAO(conn);
+        exp = new ExperienciaDAO(conn);
         expAct = new ExperienciaActividadDAO(conn);
+
     }
 
     public void conexion() {
@@ -53,13 +51,28 @@ public class ConexionBD {
             Logger.getLogger(LOGINController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+// GETS Y SETS
 
-//METODOS ACTIVIDAD
-    public boolean insertarActividad(String tipoActividad, String subtipo, String descripcion, String observacion, String url, String rutaImagen, String direccion) {
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public boolean loginUsuario(String usuario, String contraseña) {
+        boolean esta;
+        esta = user.buscarUsuario(usuario, contraseña, this.conn);
+        return esta;
+    }
+
+    //CRUD ACTIVIDADES
+    public boolean insertarActividad(String tipoActividad, String subtipo, String descripcion, String observacion, String url, String rutaImagen, String direccion, double precio) {
         boolean ok = false;
         int filas = 0;
         try {
-            filas = act.insertarActividad(tipoActividad, subtipo, descripcion, observacion, url, rutaImagen, direccion);
+            filas = act.insertarActividad(tipoActividad, subtipo, descripcion, observacion, url, rutaImagen, direccion, precio);
             if (filas > 0) {
                 ok = true;
             }
@@ -104,7 +117,17 @@ public class ConexionBD {
     }
 
     public Actividad filtrarActividadPorId(int idActividad) throws SQLException {
-        return act.filtrarActividadesPorId(idActividad);
+        return act.filtrarActividadPorId(idActividad);
+    }
+
+    public ObservableList filtrarExperienciaActividadPorId(int idExperienciaActividad) {
+        ObservableList<ExperienciaActividad> lista = FXCollections.observableArrayList();
+        try {
+            lista = expAct.filtrarExperienciaActividadPorId(idExperienciaActividad);
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
 
     public ObservableList filtrarActividadPorTipo(String tipo) {
@@ -116,35 +139,44 @@ public class ConexionBD {
         }
         return lista;
     }
+    //EXPACTIVIDAD
+    //    public int insertarExpActividad(int idExperiencia, int numOrden, int idActividad, LocalDate fechaComienzo, LocalDate fechaFinal, int numeroPlazas,
+    //double precio, LocalTime duracion) throws SQLException {
+    public boolean insertaExpActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFinal, int numeroPlazas, double precio, LocalTime duracion) throws SQLException {
+        boolean ok = false;
+        expAct.insertarExpActividad(idExperiencia, idActividad, fechaComienzo, fechaFinal, numeroPlazas, precio, duracion);
+        return ok;
+    }
 
-    //METODOS EXPERIENCIA
+    public ObservableList rellenarExperienciasActividades(int idUsuario) {
+        ObservableList<ExperienciaActividad> lista = FXCollections.observableArrayList();
+        try {
+            lista = expAct.listarTodasExpAct();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+       public boolean borrarExperienciaActividad(int idExperiencia) {
+        boolean correcto = false;
+        int filas = 0;
+        try {
+            filas = expAct.borrarExpActividad(idExperiencia);
+            if (filas > 0) {
+                correcto = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return correcto;
+
+    }
+
+    //EXPERIENCIA
+    // public int insertarExperiencia(int idExperiencia, int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
     public boolean insertarExperiencia(int idExperiencia, int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
         boolean ok = false;
-        int filas = 0;
-        filas = exp.insertarExperiencia(idExperiencia, idUsuario, presupuesto, fechaContratacion, fechaFin, origen);
-        if (filas > 0) {
-            ok = true;
-        }
-        return ok;
-    }
-
-    public boolean borrarExperiencia(int idExperiencia) throws SQLException {
-        boolean ok = false;
-        int filas = 0;
-        filas = exp.borrarExperiencia(idExperiencia);
-        if (filas > 0) {
-            ok = true;
-        }
-        return ok;
-    }
-
-    public boolean modificarExperieincia(Experiencia e) {
-        boolean ok = false;
-        int filas = 0;
-        filas = exp.modificarExpActividad(e);
-        if (filas > 0) {
-            ok = true;
-        }
+        exp.insertarExperiencia(idExperiencia, idUsuario, presupuesto, fechaContratacion, fechaFin, origen);
         return ok;
     }
 
@@ -156,51 +188,32 @@ public class ConexionBD {
 
     }
 
-    // GETS Y SETS
-    public Connection getConn() {
-        return conn;
+    public ObservableList filtrarEventosFecha(LocalDate fecha) {
+        ObservableList<Evento> lista = event.filtrarEvento(fecha);
+        return lista;
     }
 
-    public void setConn(Connection conn) {
-        this.conn = conn;
+    public ObservableList cargarEventos() {
+        ObservableList<Evento> lista = FXCollections.observableArrayList();
+        lista = event.getListaeventos();
+        return lista;
     }
 
-    public boolean loginUsuario(String usuario, String contraseña) {
-        boolean esta;
-        esta = user.buscarUsuario(usuario, contraseña, this.conn);
-        return esta;
+    public boolean insertarUsuario(String nombreUsuario, String contraseña, String nombre, String apellidos, String direccion, String correo, String formaDePago) throws SQLException {
+        return user.insertarUsuario(nombreUsuario, contraseña, nombre, apellidos, direccion, correo, formaDePago);
     }
 
-    public ActividadDAO getAct() {
-        return act;
+    public boolean actualizarUsuario(String nombre, String apellidos, String formaDePago, String direccion, String correo, int idUsuario) throws SQLException {
+
+        return user.actualizarUsuario(nombre, apellidos, formaDePago, direccion, correo, idUsuario);
     }
 
-    public void setAct(ActividadDAO act) {
-        this.act = act;
+    public Usuario getUser() {
+        return user.getUser();
     }
 
-    public EventoDAO getEvent() {
-        return event;
-    }
-
-    public void setEvent(EventoDAO event) {
-        this.event = event;
-    }
-
-    public UsuariosDAO getUser() {
-        return user;
-    }
-
-    public void setUser(UsuariosDAO user) {
-        this.user = user;
-    }
-
-    public ExperienciaDAO getExp() {
-        return exp;
-    }
-
-    public void setExp(ExperienciaDAO exp) {
-        this.exp = exp;
+    public int getExperienciaId() throws SQLException {
+        return exp.maximoIdExp();
     }
 
     public ExperienciaActividadDAO getExpAct() {
@@ -210,4 +223,14 @@ public class ConexionBD {
     public void setExpAct(ExperienciaActividadDAO expAct) {
         this.expAct = expAct;
     }
+
+    public ExperienciaDAO getExp() {
+        return exp;
+    }
+
+    public void setExp(ExperienciaDAO exp) {
+        this.exp = exp;
+    }
+    
+
 }

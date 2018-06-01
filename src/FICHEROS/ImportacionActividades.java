@@ -27,6 +27,7 @@ public class ImportacionActividades {
     public List<Actividad> importarActividades(File cargaActividades) {
         List<Actividad> listaActividades = new ArrayList<>();//AL DEVOLVER LA LISTA, Y RECOGERLA EN LA VENTANA QUE TOCA, RECORRER TODA LA LISTA Y HACER INSERT SEGUN LONGITUD
         String direccion = "";
+        double precio = 0;
         Integer idActividad = 0;
         String tipoActividad, subtipo = null, descripcion = null, observacion = null;
         TipoActividades tipo = null;
@@ -59,8 +60,12 @@ public class ImportacionActividades {
                     if (actividad.equalsIgnoreCase("Observacion")) {
                         observacion = s.nextToken();
                     }
+                    actividad = s.nextToken();
+                     if (actividad.equalsIgnoreCase("precio")) {
+                        precio = Double.parseDouble(s.nextToken());
+                    }
                 }
-                Actividad act = new Actividad(idActividad, tipo, subtipo, descripcion, observacion);//lista actividades, donde?
+                Actividad act = new Actividad(idActividad, tipo, subtipo, descripcion, observacion,precio);//lista actividades, donde?
                 listaActividades.add(act);
             } catch (IOException ex) {
                 System.out.println("Error en la lectura del archivo");

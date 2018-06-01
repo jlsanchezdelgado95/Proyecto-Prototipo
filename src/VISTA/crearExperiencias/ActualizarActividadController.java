@@ -104,7 +104,7 @@ public class ActualizarActividadController implements Initializable {
     private void irAtras(ActionEvent event) throws IOException {
         Parent root;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/VISTA/crearpaquetes/CREARPAQUETES.fxml"));
+        loader.setLocation(getClass().getResource("/VISTA/crearExperiencias/CREAREXPERIENCIAS.fxml"));
         root = loader.load();
         CREAREXPERIENCIASController datosCrearPaquetes = loader.getController();
         datosCrearPaquetes.setConexion(conexion);

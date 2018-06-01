@@ -20,32 +20,34 @@ public class Actividad {
     public String observacion;
 
     private String direccion;
+    private double precio;
 
     private List<ExperienciaActividad> listado = new ArrayList<>();
 
-    public Actividad(Integer idActividad, TipoActividades tipoActividad, String subtipo, String descripcion, String observacion) {
+    public Actividad(Integer idActividad, TipoActividades tipoActividad, String subtipo, String imagen, String URL, String descripcion, String observacion, String direccion, double precio) {
         this.idActividad = idActividad;
         this.tipoActividad = tipoActividad;
         this.subtipo = subtipo;
-        this.descripcion = descripcion;
-        this.observacion = observacion;
-    }
-
-    public Actividad(Integer idActividad, TipoActividades tipoActividad, String subtipo, String descripcion, String observacion, String URL) {
-        this.idActividad = idActividad;
-        this.tipoActividad = tipoActividad;
-        this.subtipo = subtipo;
-        this.descripcion = descripcion;
-        this.observacion = observacion;
+        this.imagen = imagen;
         this.URL = URL;
+        this.descripcion = descripcion;
+        this.observacion = observacion;
+        this.direccion = direccion;
+        this.precio = precio;
     }
 
-    public Actividad(TipoActividades tipoActividad, String subtipo, String descripcion, String observacion) {
+    public Actividad(Integer idActividad, TipoActividades tipoActividad, String subtipo, String descripcion, String observacion, double precio) {
+        this.idActividad = idActividad;
         this.tipoActividad = tipoActividad;
         this.subtipo = subtipo;
         this.descripcion = descripcion;
         this.observacion = observacion;
+        this.precio = precio;
     }
+
+ 
+
+   
 
     public Actividad() {
     }
@@ -121,7 +123,7 @@ public class Actividad {
 
     @Override
     public String toString() {
-        String cadena = idActividad + " " + descripcion + " " + observacion;
+        String cadena = idActividad + " " + descripcion;
         return cadena;
     }
 
@@ -131,5 +133,13 @@ public class Actividad {
 
     public void setListado(List<ExperienciaActividad> listado) {
         this.listado = listado;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 }

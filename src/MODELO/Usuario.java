@@ -20,12 +20,15 @@ public class Usuario {
     
     private int administrador;
 
-    public Usuario(String NombreUsuario, String Contrasenya, String Nombre, String Apellidos, String FormaPago, int administrador) {
+    public Usuario(int idUsuario,String NombreUsuario, String Contrasenya, String Nombre, String Apellidos, String FormaPago,String Direccion,String Correo, int administrador) {
+        this.idUsuario = idUsuario;
         this.NombreUsuario = NombreUsuario;
         this.Contrasenya = Contrasenya;
         this.Nombre = Nombre;
         this.Apellidos = Apellidos;
         this.FormaPago = FormaPago;
+        this.Direccion= Direccion;
+        this.Correo= Correo;
         this.administrador = administrador;
     }
 
@@ -90,20 +93,21 @@ public class Usuario {
         this.FormaPago = FormaPago;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
+ 
     public void setAdministrador(int administrador) {
         this.administrador = administrador;
     }
 
     public int getAdministrador() {
         return administrador;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
 }

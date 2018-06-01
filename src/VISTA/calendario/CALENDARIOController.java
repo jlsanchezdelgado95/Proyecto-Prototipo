@@ -6,11 +6,11 @@
 package VISTA.calendario;
 
 import DATOS.ConexionBD;
+import MODELO.Evento;
 import VISTA.menuprincipal.MenuPrincipalController;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,19 +20,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class CALENDARIOController implements Initializable {
 
     @FXML
-    private ListView<String> lvEventos;
-    private ObservableList<String> eventos = FXCollections.observableArrayList();
+    private ListView<Evento> lvEventos;
+    private ObservableList<Evento> eventos = FXCollections.observableArrayList();
+    @FXML
     private DatePicker date;
     private ConexionBD conn;
     @FXML
     private JFXButton btAtras;
+    private Alert alerta = new Alert(AlertType.CONFIRMATION);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -40,22 +46,31 @@ public class CALENDARIOController implements Initializable {
     }
 
     public void cargarDatos() {
-        String evento;
-        for (int i = 1; i <= 20; i++) {
-            evento = "nombre evento" + i + "    " + "Direccion: " + "          " + "Descripción: ";
-            eventos.add(evento);
-        }
+
+        eventos = conn.cargarEventos();
+
         lvEventos.setItems(eventos);
 
     }
 
+    @FXML
     private void seleccionCalendario(ActionEvent event) {
-        LocalDate dateHoy = LocalDate.now();
-        if (dateHoy.equals(date.getValue())) {
-            cargarDatos();
+
+        ObservableList<Evento> eventosFiltrados = FXCollections.observableArrayList();
+
+        if (conn.filtrarEventosFecha(date.getValue()).isEmpty() == false) {
+            eventosFiltrados= conn.filtrarEventosFecha(date.getValue());
+
+           
+            lvEventos.setItems(eventosFiltrados);
         } else {
-            lvEventos.getItems().clear();
+            alerta.setTitle("No hay eventos disponibles");
+            alerta.setHeaderText("Prueba otro dia");
+            alerta.setContentText("Lamentamos que no haya eventos este dia: " + date.getValue());
+            alerta.showAndWait();
+
         }
+
     }
 
     @FXML
@@ -79,4 +94,5 @@ public class CALENDARIOController implements Initializable {
     public void setConn(ConexionBD conn) {
         this.conn = conn;
     }
+
 }

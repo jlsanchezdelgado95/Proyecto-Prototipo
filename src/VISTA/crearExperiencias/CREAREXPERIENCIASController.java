@@ -7,7 +7,6 @@ package VISTA.crearExperiencias;
 
 import DATOS.ConexionBD;
 import MODELO.Actividad;
-import MODELO.Experiencia;
 import MODELO.tipoOrigen;
 import VISTA.menuprincipal.MenuPrincipalController;
 import com.jfoenix.controls.JFXButton;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -120,7 +120,7 @@ public class CREAREXPERIENCIASController implements Initializable {
     private void InsertarActividad(ActionEvent event) throws IOException {
         Parent root;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/VISTA/crearpaquetes/insertActividad.fxml"));
+        loader.setLocation(getClass().getResource("/VISTA/crearExperiencias/insertActividad.fxml"));
         root = loader.load();
         InsertActividadController datosInsertar = loader.getController();
         datosInsertar.setConexion(conexion);
@@ -134,7 +134,7 @@ public class CREAREXPERIENCIASController implements Initializable {
     private void ModificarActividad(ActionEvent event) throws IOException {
         Parent root;
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/VISTA/crearpaquetes/ActualizarActividad.fxml"));
+        loader.setLocation(getClass().getResource("/VISTA/crearExperiencias/ActualizarActividad.fxml"));
         root = loader.load();
         ActualizarActividadController datosActividad = loader.getController();
         datosActividad.setConexion(conexion);
@@ -184,12 +184,19 @@ public class CREAREXPERIENCIASController implements Initializable {
     @FXML
     private void eliminarActividadDeExperiencia(ActionEvent event) {
         listaExpAct.remove(tvExperiencia.getSelectionModel().getSelectedItem());
-        tvActividades.setItems(listaExpAct);
+        tvExperiencia.setItems(listaExpAct);
     }
 //    public Experiencia(int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) {
+    //    public int insertarExpActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFinal, int numeroPlazas,
+    //double precio, LocalTime duracion) throws SQLException {
+
     @FXML
     private void guardarExperiencia(ActionEvent event) throws SQLException {
-        conexion.insertarExperiencia(conexion.getUser().getUser().getIdUsuario(), 0, 0, LocalDate.MIN, LocalDate.MIN, tipoOrigen.USUARIO);
+        conexion.insertarExperiencia(conexion.getUser().getIdUsuario(), 0, 0, LocalDate.MIN, LocalDate.MIN, tipoOrigen.USUARIO);
+        for (Actividad actividad : listaExpAct) {
+            conexion.insertaExpActividad(conexion.getExperienciaId(), actividad.getIdActividad(), LocalDate.MIN, LocalDate.MIN, 0, 0, LocalTime.MIN);
+        }
+
     }
 
 }

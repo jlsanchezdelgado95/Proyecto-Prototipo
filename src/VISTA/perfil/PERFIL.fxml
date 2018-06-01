@@ -5,13 +5,14 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="629.0" prefWidth="1011.0" style="-fx-background-color: B8F3FF;" styleClass="AnchorPane" stylesheets="@../../ESTILOS/estiloPerfil.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.perfil.PERFILController">
+<AnchorPane id="AnchorPane" prefHeight="629.0" prefWidth="1011.0" style="-fx-background-color: B8F3FF;" styleClass="AnchorPane" stylesheets="@../../ESTILOS/estiloPerfil.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.perfil.PERFILController">
    <children>
       <ImageView fitHeight="489.0" fitWidth="786.0" layoutX="227.0" layoutY="141.0" pickOnBounds="true" smooth="false">
          <image>
@@ -22,22 +23,42 @@
          <children>
             <Label layoutX="9.0" layoutY="230.0" prefHeight="30.0" prefWidth="149.0" text="Nombre">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <Label layoutX="10.0" layoutY="446.0" text="Direccion">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <JFXButton fx:id="btAtras" layoutX="121.0" layoutY="582.0" onAction="#irAtras" text="Atrás" />
             <JFXButton fx:id="btModificar" layoutX="14.0" layoutY="582.0" onAction="#modificarPerfil" text="Modificar" />
             <Label layoutX="6.0" layoutY="300.0" prefHeight="30.0" prefWidth="149.0" text="Apellidos">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
             <Label layoutX="10.0" layoutY="376.0" prefHeight="30.0" prefWidth="149.0" text="Correo">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbNombre" layoutX="9.0" layoutY="260.0" prefHeight="30.0" prefWidth="149.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbApellidos" layoutX="6.0" layoutY="330.0" prefHeight="30.0" prefWidth="149.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbCorreo" layoutX="10.0" layoutY="406.0" prefHeight="30.0" prefWidth="149.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbDireccion" layoutX="9.0" layoutY="473.0" prefHeight="30.0" prefWidth="149.0">
                <font>
                   <Font size="18.0" />
                </font>
@@ -60,47 +81,50 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="280.0" layoutY="236.0" />
+      <TextField fx:id="txNombre" layoutX="280.0" layoutY="236.0" />
       <Label layoutX="586.0" layoutY="202.0" text="Direccion" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="586.0" layoutY="236.0" />
+      <TextField fx:id="txDireccion" layoutX="586.0" layoutY="236.0" />
       <Separator layoutX="509.0" layoutY="198.0" orientation="VERTICAL" prefHeight="406.0" prefWidth="0.0" />
       <ImageView fitHeight="139.0" fitWidth="786.0" layoutX="227.0" pickOnBounds="true" smooth="false">
          <image>
             <Image url="@../../IMAGENES/banner.jpg" />
          </image>
       </ImageView>
-      <TextField layoutX="280.0" layoutY="336.0" />
+      <TextField fx:id="txApellidos" layoutX="280.0" layoutY="336.0" />
       <Label layoutX="587.0" layoutY="302.0" text="Correo" textFill="#fff9f9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <TextField layoutX="586.0" layoutY="336.0" />
+      <TextField fx:id="txCorreo" layoutX="586.0" layoutY="336.0" />
       <Label layoutX="580.0" layoutY="514.0" text="Forma de pago" textFill="#fff9f9">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <RadioButton layoutX="543.0" layoutY="558.0" mnemonicParsing="false" text="Efectivo" textFill="WHITE">
+      <RadioButton fx:id="rbEfectivo" layoutX="543.0" layoutY="558.0" mnemonicParsing="false" text="Efectivo" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="formaPago" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbVisa" layoutX="629.0" layoutY="558.0" mnemonicParsing="false" text="Visa" textFill="WHITE" toggleGroup="$formaPago">
          <font>
             <Font size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton layoutX="629.0" layoutY="558.0" mnemonicParsing="false" text="Visa" textFill="WHITE">
+      <RadioButton fx:id="rbPaypal" layoutX="710.0" layoutY="558.0" mnemonicParsing="false" text="Paypal" textFill="WHITE" toggleGroup="$formaPago">
          <font>
             <Font size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton layoutX="710.0" layoutY="558.0" mnemonicParsing="false" text="Paypal" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
-      <RadioButton layoutX="811.0" layoutY="558.0" mnemonicParsing="false" text="Bitcoin" textFill="WHITE">
+      <RadioButton fx:id="rbBitcoin" layoutX="811.0" layoutY="558.0" mnemonicParsing="false" text="Bitcoin" textFill="WHITE" toggleGroup="$formaPago">
          <font>
             <Font size="14.0" />
          </font>

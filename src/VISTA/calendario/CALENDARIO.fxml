@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="629.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.calendario.CALENDARIOController">
+<AnchorPane id="AnchorPane" prefHeight="629.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.calendario.CALENDARIOController">
    <children>
       <ImageView fitHeight="629.0" fitWidth="1011.0" pickOnBounds="true" smooth="false">
          <image>
@@ -19,7 +19,7 @@
       </ImageView>
       <Separator layoutX="2.0" layoutY="112.0" prefHeight="14.0" prefWidth="911.0" />
       <ListView fx:id="lvEventos" layoutX="470.0" layoutY="284.0" prefHeight="319.0" prefWidth="516.0" style="-fx-opacity: 0.80;" />
-      <JFXDatePicker defaultColor="#1953fa" layoutX="14.0" layoutY="269.0" prefHeight="30.0" prefWidth="270.0" />
+      <JFXDatePicker fx:id="date" defaultColor="#1953fa" layoutX="14.0" layoutY="269.0" onAction="#seleccionCalendario" prefHeight="30.0" prefWidth="270.0" />
       <ImageView fitHeight="158.0" fitWidth="224.0" pickOnBounds="true" smooth="false">
          <image>
             <Image url="@../../IMAGENES/LogoProyecto2.0.png" />
