@@ -7,10 +7,12 @@ package VISTA.crearExperiencias;
 
 import DATOS.ConexionBD;
 import MODELO.Actividad;
+import MODELO.ExperienciaActividad;
 import MODELO.tipoOrigen;
 import VISTA.menuprincipal.MenuPrincipalController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,9 +28,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -76,10 +80,21 @@ public class CREAREXPERIENCIASController implements Initializable {
     private TableColumn<?, ?> tcExpNombre;
     @FXML
     private TableColumn<?, ?> tcExpURL;
-    private ObservableList<Actividad> listaExpAct = FXCollections.observableArrayList();
+    private ObservableList<Actividad> listaActividadesEnTVExp = FXCollections.observableArrayList();
+    private ObservableList<ExperienciaActividad> listaActExpEnTVExp = FXCollections.observableArrayList();
     @FXML
     private TableColumn<?, ?> tcExpSubtipo;
     private Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+    @FXML
+    private JFXDatePicker dpFechaContratacion;
+    @FXML
+    private JFXDatePicker dpFechaFin;
+    @FXML
+    private JFXDatePicker dpFechaInicioAct;
+    @FXML
+    private JFXDatePicker dpFechaFinAct;
+    @FXML
+    private TextField tfNumPlazas;
 
     /**
      * Initializes the controller class.
@@ -203,8 +218,10 @@ public class CREAREXPERIENCIASController implements Initializable {
 
     @FXML
     private void anyadirActividadEnExperiencia(ActionEvent event) throws SQLException {
-        listaExpAct.add(conexion.filtrarActividadPorId(tvActividades.getSelectionModel().getSelectedItem().getIdActividad()));
-        tvExperiencia.setItems(listaExpAct);
+        Actividad act = conexion.filtrarActividadPorId(tvActividades.getSelectionModel().getSelectedItem().getIdActividad());
+        
+        listaActividadesEnTVExp.add(act);
+        tvExperiencia.setItems(listaActividadesEnTVExp);
         tcExpNombre.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         tcExpTipo.setCellValueFactory(new PropertyValueFactory<>("tipoActividad"));
         tcExpSubtipo.setCellValueFactory(new PropertyValueFactory<>("Subtipo"));
@@ -213,8 +230,8 @@ public class CREAREXPERIENCIASController implements Initializable {
 
     @FXML
     private void eliminarActividadDeExperiencia(ActionEvent event) {
-        listaExpAct.remove(tvExperiencia.getSelectionModel().getSelectedItem());
-        tvExperiencia.setItems(listaExpAct);
+        listaActividadesEnTVExp.remove(tvExperiencia.getSelectionModel().getSelectedItem());
+        tvExperiencia.setItems(listaActividadesEnTVExp);
     }
 //    public Experiencia(int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) {
     //    public int insertarExpActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFinal, int numeroPlazas,
@@ -222,9 +239,13 @@ public class CREAREXPERIENCIASController implements Initializable {
 
     @FXML
     private void guardarExperiencia(ActionEvent event) throws SQLException {
-        conexion.insertarExperiencia(conexion.getUser().getIdUsuario(), 0, 0, LocalDate.MIN, LocalDate.MIN, tipoOrigen.USUARIO);
-        for (Actividad actividad : listaExpAct) {
-            conexion.insertaExpActividad(conexion.getExperienciaId(), actividad.getIdActividad(), LocalDate.MIN, LocalDate.MIN, 0, 0, LocalTime.MIN);
+        double presupuestoFinal = 0;
+        for (Actividad actividad : listaActividadesEnTVExp) {
+            presupuestoFinal += (actividad.getPrecio() * Integer.parseInt(tfNumPlazas.getText()));//LO CALCULO AL FINAL
+        }
+        conexion.insertarExperiencia(conexion.getUser().getIdUsuario(), presupuestoFinal, dpFechaContratacion.getValue(), dpFechaFin.getValue(), tipoOrigen.USUARIO);
+        for (Actividad actividad : listaActividadesEnTVExp) {//Por cada actividad hago un insert
+            conexion.insertaExpActividad(conexion.getExperienciaId(), actividad.getIdActividad(), dpFechaInicioAct.getValue(), dpFechaFinAct.getValue(), 0, actividad.getPrecio(), LocalTime.MIN);
         }
 
     }

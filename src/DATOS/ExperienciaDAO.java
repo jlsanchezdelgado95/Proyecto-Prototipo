@@ -31,17 +31,16 @@ public class ExperienciaDAO {
     }
 
     //CRUD
-    public int insertarExperiencia(int idExperiencia, int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
+    public int insertarExperiencia(int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
         int filas = 0;
-        String sql = ("insert into " + " experiencias(idExperiencia,idUsuario,presupuesto, fechaContratacion,fechaFin,origen) "
+        String sql = ("insert into " + " experiencias(idUsuario,presupuesto, fechaContratacion,fechaFin,origen) "
                 + " values(?,?,?,?,?,?)");
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, idExperiencia);
-        ps.setInt(2, idUsuario);
-        ps.setDouble(3, presupuesto);
-        ps.setDate(4, Date.valueOf(fechaContratacion));
-        ps.setDate(5, Date.valueOf(fechaFin));
-        ps.setString(6, String.valueOf(origen));
+        ps.setInt(1, idUsuario);
+        ps.setDouble(2, presupuesto);
+        ps.setDate(3, Date.valueOf(fechaContratacion));
+        ps.setDate(4, Date.valueOf(fechaFin));
+        ps.setString(5, String.valueOf(origen));
         filas = ps.executeUpdate();
         return filas;
     }

@@ -2,44 +2,46 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="729.0" prefWidth="1111.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.crearExperiencias.CREAREXPERIENCIASController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="879.0" prefWidth="1151.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VISTA.crearExperiencias.CREAREXPERIENCIASController">
    <children>
-      <ImageView fitHeight="729.0" fitWidth="1119.0" layoutX="-3.0" pickOnBounds="true">
+      <ImageView fitHeight="879.0" fitWidth="1159.0" layoutX="-3.0" pickOnBounds="true">
          <image>
             <Image url="@../../IMAGENES/backpack-bag-blur-346768.jpg" />
          </image>
       </ImageView>
-      <Separator layoutX="203.0" layoutY="106.0" prefHeight="7.0" prefWidth="907.0" />
+      <Separator layoutX="203.0" layoutY="106.0" prefHeight="3.0" prefWidth="935.0" />
       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true">
          <image>
             <Image url="@../../IMAGENES/LogoProyecto2.0.png" />
          </image>
       </ImageView>
-      <Label layoutX="765.0" layoutY="14.0" text="Actividades" textFill="WHITE">
+      <Label layoutX="814.0" layoutY="14.0" text="Actividades" textFill="WHITE">
          <font>
             <Font size="64.0" />
          </font>
       </Label>
-      <JFXComboBox fx:id="cbTipoActividad" layoutX="273.0" layoutY="138.0" onAction="#mostrarActividades" prefHeight="25.0" prefWidth="399.0" />
-      <TableView fx:id="tvActividades" layoutX="245.0" layoutY="174.0" onMouseClicked="#mostrarDescripcion" prefHeight="319.0" prefWidth="456.0">
+      <JFXComboBox fx:id="cbTipoActividad" layoutX="289.0" layoutY="125.0" onAction="#mostrarActividades" prefHeight="25.0" prefWidth="399.0" />
+      <TableView fx:id="tvActividades" layoutX="246.0" layoutY="159.0" onMouseClicked="#mostrarDescripcion" prefHeight="319.0" prefWidth="485.0">
         <columns>
-          <TableColumn fx:id="tcSubtipo" prefWidth="148.0" text="Subtipo" />
-          <TableColumn fx:id="tcNombre" prefWidth="156.0" text="Nombre" />
-            <TableColumn fx:id="tcUrl" prefWidth="151.0" text="URL" />
+          <TableColumn fx:id="tcSubtipo" prefWidth="171.0" text="Subtipo" />
+          <TableColumn fx:id="tcNombre" prefWidth="161.0" text="Nombre" />
+            <TableColumn fx:id="tcUrl" prefWidth="152.0" text="URL" />
         </columns>
       </TableView>
-      <Pane fx:id="PanelLateral" layoutX="-8.0" layoutY="1.0" prefHeight="729.0" prefWidth="207.0" style="-fx-background-color: B8F3FF; -fx-opacity: 0.5;">
+      <Pane fx:id="PanelLateral" layoutX="-8.0" layoutY="1.0" prefHeight="879.0" prefWidth="207.0" style="-fx-background-color: B8F3FF; -fx-opacity: 0.5;">
          <children>
             <JFXButton fx:id="btInsertar" layoutX="4.0" layoutY="488.0" onAction="#InsertarActividad" prefHeight="25.0" prefWidth="200.0" stylesheets="@../../ESTILOS/estiloPerfil.css" text="Insertar" visible="false" />
             <JFXButton fx:id="btModificar" layoutX="4.0" layoutY="513.0" onAction="#ModificarActividad" prefHeight="25.0" prefWidth="200.0" stylesheets="@../../ESTILOS/estiloPerfil.css" text="Modificar" visible="false" />
@@ -50,8 +52,8 @@
                </font></JFXButton>
          </children></Pane>
       <ImageView fx:id="imgView" fitHeight="201.0" fitWidth="290.0" layoutX="712.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
-      <TextArea fx:id="txaDescripcion" editable="false" layoutX="401.0" layoutY="510.0" onDragDetected="#mostrarDescripcion" prefHeight="217.0" prefWidth="290.0" />
-      <Label layoutX="218.0" layoutY="582.0" prefHeight="43.0" prefWidth="152.0" text="Descripción de" textFill="WHITE">
+      <TextArea fx:id="txaDescripcion" editable="false" layoutX="387.0" layoutY="632.0" onDragDetected="#mostrarDescripcion" prefHeight="217.0" prefWidth="290.0" />
+      <Label layoutX="219.0" layoutY="696.0" prefHeight="43.0" prefWidth="152.0" text="Descripción de" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -77,17 +79,17 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="776.0" layoutY="504.0" onAction="#eliminarActividadDeExperiencia" text="Eliminar actividad de la experiencia" textFill="WHITE">
+      <JFXButton layoutX="814.0" layoutY="622.0" onAction="#eliminarActividadDeExperiencia" text="Eliminar actividad de la experiencia" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="852.0" layoutY="543.0" onAction="#guardarExperiencia" text="Crear experiencia" textFill="WHITE">
+      <JFXButton layoutX="901.0" layoutY="663.0" onAction="#guardarExperiencia" text="Crear experiencia" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <TableView fx:id="tvExperiencia" layoutX="786.0" layoutY="174.0" prefHeight="319.0" prefWidth="302.0">
+      <TableView fx:id="tvExperiencia" layoutX="829.0" layoutY="159.0" prefHeight="319.0" prefWidth="302.0">
         <columns>
           <TableColumn fx:id="tcExpTipo" prefWidth="75.0" text="Tipo" />
           <TableColumn fx:id="tcExpSubtipo" prefWidth="75.0" text="Subtipo" />
@@ -95,10 +97,41 @@
             <TableColumn fx:id="tcExpURL" prefWidth="76.0" text="URL" />
         </columns>
       </TableView>
-      <Label layoutX="234.0" layoutY="618.0" prefHeight="43.0" prefWidth="152.0" text="la actividad" textFill="WHITE">
+      <Label layoutX="235.0" layoutY="732.0" prefHeight="43.0" prefWidth="152.0" text="la actividad" textFill="WHITE">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <JFXDatePicker fx:id="dpFechaContratacion" defaultColor="WHITE" layoutX="908.0" layoutY="513.0" />
+      <Label layoutX="782.0" layoutY="518.0" text="Fecha contratacion" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <JFXDatePicker fx:id="dpFechaFin" defaultColor="WHITE" layoutX="908.0" layoutY="559.0" />
+      <Label layoutX="784.0" layoutY="562.0" text="Fecha fin" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <JFXDatePicker fx:id="dpFechaInicioAct" defaultColor="WHITE" layoutX="541.0" layoutY="503.0" />
+      <Label layoutX="406.0" layoutY="505.0" text="Fecha Inicio" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <JFXDatePicker fx:id="dpFechaFinAct" defaultColor="WHITE" layoutX="541.0" layoutY="549.0" />
+      <Label layoutX="415.0" layoutY="549.0" text="Fecha fin" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Separator layoutX="776.0" layoutY="138.0" orientation="VERTICAL" prefHeight="637.0" prefWidth="0.0" />
+      <Label layoutX="408.0" layoutY="591.0" text="Numero de plazas" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfNumPlazas" layoutX="541.0" layoutY="589.0" promptText="nºPlazas" />
    </children>
 </AnchorPane>

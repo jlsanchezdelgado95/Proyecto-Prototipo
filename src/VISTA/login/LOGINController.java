@@ -65,6 +65,7 @@ public class LOGINController implements Initializable {
                 Image icono = new Image(this.getClass().getResource("/IMAGENES/icono.png").toString());
                 escenario.getIcons().add(icono);
                 escenario.setTitle("Ventana de elección");
+                escenario.resizableProperty().setValue(Boolean.FALSE);
                 escenario.initModality(Modality.APPLICATION_MODAL);  // NO PERMITE ACCESO A LA VENTANA PRINCIPAL
                 escenario.setScene(new Scene(root));
                 escenario.showAndWait();
@@ -89,8 +90,11 @@ public class LOGINController implements Initializable {
             loader.setLocation(getClass().getResource("/VISTA/registro/REGISTRO.fxml"));
             root = loader.load();
             REGISTROController datosLogin = loader.getController();
+            datosLogin.setConexion(conn);
+            datosLogin.cargarDatos();
             Stage escenario = new Stage();
             escenario.setTitle("Ventana de Registro");
+            escenario.resizableProperty().setValue(Boolean.FALSE);
             escenario.initModality(Modality.APPLICATION_MODAL);  // NO PERMITE ACCESO A LA VENTANA PRINCIPAL
             escenario.setScene(new Scene(root));
             escenario.showAndWait();
@@ -102,4 +106,5 @@ public class LOGINController implements Initializable {
     public void setConn(ConexionBD conn) {
         this.conn = conn;
     }
+
 }

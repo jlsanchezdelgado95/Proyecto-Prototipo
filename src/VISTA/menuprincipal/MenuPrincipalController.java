@@ -91,22 +91,23 @@ public class MenuPrincipalController implements Initializable {
         }
     }
 
-    @FXML
+@FXML
     private void mostrarPerfil(ActionEvent event) {
-        Parent root;
+     Parent root;
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/VISTA/perfil/PERFIL.fxml"));
             root = loader.load();
             PERFILController datosLogin = loader.getController();
             datosLogin.setConn(conexion);
+            datosLogin.cargarDatos();
             Stage escenarioVentana = (Stage) btPerfil.getScene().getWindow();
             escenarioVentana.setTitle("Perfil");
+            escenarioVentana.resizableProperty().setValue(Boolean.FALSE);
             escenarioVentana.setScene(new Scene(root));
         } catch (IOException ex) {
             System.out.println("ERROR IOExcepction:  No se encuentra la ventana de login");
         }
-
     }
 
     public void setConexion(ConexionBD conexion) {

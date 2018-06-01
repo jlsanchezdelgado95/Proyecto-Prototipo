@@ -17,7 +17,7 @@ public class ExperienciaActividad {
 
     public int numPlazas;
 
-    public double preciol;
+    public double precio;
 
     public LocalTime duracion;
 
@@ -27,14 +27,19 @@ public class ExperienciaActividad {
         this.idActividad = idActividad;
     }
 
-    public ExperienciaActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFin, int numPlazas, double preciol, LocalTime duracion) {
+    public ExperienciaActividad(int idExperiencia, int idActividad, LocalDate fechaComienzo, LocalDate fechaFin, int numPlazas, double precio, LocalTime duracion) {
         this.idExperiencia = idExperiencia;
         this.idActividad = idActividad;
         this.fechaComienzo = fechaComienzo;
         this.fechaFin = fechaFin;
         this.numPlazas = numPlazas;
-        this.preciol = preciol;
+        this.precio = precio;
         this.duracion = duracion;
+    }
+    
+    public ExperienciaActividad(int idActividad, LocalDate fechaComienzo, LocalDate fechaFin, int numPlazas){
+        
+        
     }
     
     
@@ -89,11 +94,11 @@ public class ExperienciaActividad {
     }
 
     public double getPreciol() {
-        return preciol;
+        return precio;
     }
 
     public void setPreciol(double preciol) {
-        this.preciol = preciol;
+        this.precio = preciol;
     }
 
     public LocalTime getDuracion() {
@@ -104,7 +109,9 @@ public class ExperienciaActividad {
         this.duracion = duracion;
     }
 
-    public void precioCalculado() {
+    public double precioCalculado(double precioMetodo) {
+        precio = precioMetodo * numPlazas;
+        return precio;
     }
 
 }

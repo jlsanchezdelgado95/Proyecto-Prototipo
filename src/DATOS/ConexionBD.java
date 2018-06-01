@@ -174,9 +174,9 @@ public class ConexionBD {
 
     //EXPERIENCIA
     // public int insertarExperiencia(int idExperiencia, int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
-    public boolean insertarExperiencia(int idExperiencia, int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
+    public boolean insertarExperiencia(int idUsuario, double presupuesto, LocalDate fechaContratacion, LocalDate fechaFin, tipoOrigen origen) throws SQLException {
         boolean ok = false;
-        exp.insertarExperiencia(idExperiencia, idUsuario, presupuesto, fechaContratacion, fechaFin, origen);
+        exp.insertarExperiencia(idUsuario, presupuesto, fechaContratacion, fechaFin, origen);
         return ok;
     }
 

@@ -105,9 +105,9 @@ public class UsuariosDAO {
         ps.setString(1, nombre);
         ps.setString(2, apellidos);
         ps.setString(3, formaDePago);
-        ps.setInt(4, idUsuario);
-        ps.setString(5, direccion);
+        ps.setString(4, direccion);
         ps.setString(5, correo);
+        ps.setInt(6, idUsuario);
         int numFilas = ps.executeUpdate();
         if (numFilas == 1 || numFilas > 1) {
             actualizacion = true;
