@@ -82,6 +82,7 @@ public class CREAREXPERIENCIASController implements Initializable {
     private TableColumn<?, ?> tcExpURL;
     private ObservableList<Actividad> listaActividadesEnTVExp = FXCollections.observableArrayList();
     private ObservableList<ExperienciaActividad> listaActExpEnTVExp = FXCollections.observableArrayList();
+    private Map<Actividad, ExperienciaActividad> listaActYExpActEnTVExp = FXCollections.observableHashMap();
     @FXML
     private TableColumn<?, ?> tcExpSubtipo;
     private Alert alerta = new Alert(Alert.AlertType.INFORMATION);
@@ -215,12 +216,17 @@ public class CREAREXPERIENCIASController implements Initializable {
             txaDescripcion.appendText(mensaje);
         }
     }
+// public ExperienciaActividad(int idActividad, LocalDate fechaComienzo, LocalDate fechaFin, int numPlazas){
 
+   
     @FXML
     private void anyadirActividadEnExperiencia(ActionEvent event) throws SQLException {
         Actividad act = conexion.filtrarActividadPorId(tvActividades.getSelectionModel().getSelectedItem().getIdActividad());
-        
+        ExperienciaActividad expAct = new ExperienciaActividad(act.getIdActividad(), dpFechaInicioAct.getValue(), dpFechaFinAct.getValue(),
+                Integer.valueOf(tfNumPlazas.getText()));
         listaActividadesEnTVExp.add(act);
+        listaActExpEnTVExp.add(expAct);
+        listaActYExpActEnTVExp.add(act, expAct);
         tvExperiencia.setItems(listaActividadesEnTVExp);
         tcExpNombre.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         tcExpTipo.setCellValueFactory(new PropertyValueFactory<>("tipoActividad"));
@@ -240,11 +246,13 @@ public class CREAREXPERIENCIASController implements Initializable {
     @FXML
     private void guardarExperiencia(ActionEvent event) throws SQLException {
         double presupuestoFinal = 0;
-        for (Actividad actividad : listaActividadesEnTVExp) {
-            presupuestoFinal += (actividad.getPrecio() * Integer.parseInt(tfNumPlazas.getText()));//LO CALCULO AL FINAL
-        }
-        conexion.insertarExperiencia(conexion.getUser().getIdUsuario(), presupuestoFinal, dpFechaContratacion.getValue(), dpFechaFin.getValue(), tipoOrigen.USUARIO);
-        for (Actividad actividad : listaActividadesEnTVExp) {//Por cada actividad hago un insert
+//        for (Actividad actividad : listaActividadesEnTVExp) {
+//            presupuestoFinal += (actividad.getPrecio() * Integer.parseInt(tfNumPlazas.getText()));//LO CALCULO AL FINAL 
+//        }
+        conexion.insertarExperiencia(conexion.getUser().getIdUsuario(), 0, dpFechaContratacion.getValue(), dpFechaFin.getValue(), tipoOrigen.USUARIO);
+        //CREO PRIMERO LA EXPERIENCIA, DESPUES LE HAGO UN UPDATE PARA METERLE EL PRESUPUESTO
+        for (Actividad actividad : listaActividadesEnTVExp && ExperienciaActividad expAct : listaActExpEnTVExp) {//Por cada actividad y  hago un insert
+        
             conexion.insertaExpActividad(conexion.getExperienciaId(), actividad.getIdActividad(), dpFechaInicioAct.getValue(), dpFechaFinAct.getValue(), 0, actividad.getPrecio(), LocalTime.MIN);
         }
 
